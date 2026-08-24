@@ -19,11 +19,11 @@ if errorlevel 1 exit /b 1
 cls
 echo ================================================================
 echo              捷徑病毒自動修復工具
- echo ================================================================
+echo ================================================================
 echo.
 echo 來源方法：PTT NTUST_Talk M.1370194255.A.FAE
 echo 專案：kavo-cleaner
- echo.
+echo.
 echo 注意：這是針對捷徑病毒徵狀的清理工具，不是完整防毒軟體。
 echo 清理前會先把可疑檔案移到隔離區，而不是直接永久刪除。
 echo.
@@ -63,7 +63,7 @@ if not exist "!QUARANTINE!" (
 call :banner "1/5 關閉 Windows Script Host 執行程序"
 taskkill /F /IM wscript.exe /T >nul 2>&1
 if not errorlevel 1 echo 已停止 wscript.exe
-ntaskkill /F /IM cscript.exe /T >nul 2>&1
+taskkill /F /IM cscript.exe /T >nul 2>&1
 if not errorlevel 1 echo 已停止 cscript.exe
 
 echo.
@@ -113,7 +113,7 @@ echo   Windows Script Host / 可疑 .vbs 啟動項目
 echo.
 echo ================================================================
 echo 修復程序完成
- echo ================================================================
+echo ================================================================
 echo 隔離區：!QUARANTINE!
 echo.
 echo 建議：
@@ -132,9 +132,7 @@ set "SRC=%~1"
 if not exist "!SRC!" exit /b 0
 for %%I in ("!SRC!") do set "NAME=%%~nxI"
 set "DST=!QUARANTINE!\!NAME!"
-if exist "!DST!" (
-    set "DST=!QUARANTINE!\%RANDOM%_!NAME!"
-)
+if exist "!DST!" set "DST=!QUARANTINE!\%RANDOM%_!NAME!"
 move /Y "!SRC!" "!DST!" >nul 2>&1
 if not errorlevel 1 (
     echo [隔離] !SRC!
